@@ -1,0 +1,16 @@
+extends layout
+
+block content
+  div(id="roomid" data-room="#{room}")
+  canvas(id="canvas")
+  div(class="r-b-corner hidden")
+    div(class="options")
+      a(href="#" id="hide-local-preview")
+        i(class="fa fa-chevron-down")
+    video(id="localvideo" muted class="local" autoplay)
+  video(id="remotevideo" class="remote" autoplay)
+  audio(id="portalOn" src="/sounds/portalopen.wav")
+  audio(id="portalOff" src="/sounds/portalclose.wav")
+  script(src="/javascripts/animation.js") 
+  script(src="/javascripts/portal.js") 
+  
