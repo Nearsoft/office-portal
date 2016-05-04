@@ -5,7 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var config = require("./config");
+console.log(config);
 var port = process.env.PORT || 5000;
 var room = process.env.room || 'portal';
 
