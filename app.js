@@ -5,8 +5,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require("./config");
-console.log(config);
+
 var port = process.env.PORT || 5000;
 var room = process.env.room || 'portal';
 
@@ -40,14 +39,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 io.on('connection', function(socket) {
-
     socket.on('room', function(room) {
-
-        socket.join(room);
-
-        current = io.nsps['/'].adapter.rooms[room].length;
-
-        if (current < 3) {
+        if (current < 2) {
+            socket.join(room);
+            current = io.nsps['/'].adapter.rooms[room].length;
 
             io.sockets.in(room).emit('join', current);
 
@@ -69,14 +64,18 @@ io.on('connection', function(socket) {
 
         } else {
             socket.emit('redirect', current);
-            //is useless go to the 'disconnect' listener when current>=3
             return;
         }
 
     });
 
     socket.on('disconnect', function() {
-        io.sockets.in(room).emit('refresh');
+        if(io.nsps['/'].adapter.rooms[room]){
+            current = io.nsps['/'].adapter.rooms[room].length;  
+        }
+        if(current<2){
+            io.sockets.in(room).emit('refresh');
+        }
         socket.leave(socket.room);
     });
 
