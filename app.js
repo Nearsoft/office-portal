@@ -21,8 +21,6 @@ var remote = require('./remote/control.js');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-var current = 0;
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
@@ -39,14 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 io.on('connection', function(socket) {
-
     socket.on('room', function(room) {
-
-        socket.join(room);
-
-        current = io.nsps['/'].adapter.rooms[room].length;
-
-        if (current < 3) {
+        var current = getCurrent(room);
+        if (current < 2) {
+            socket.join(room);
+            current = getCurrent(room);
 
             io.sockets.in(room).emit('join', current);
 
@@ -68,18 +63,28 @@ io.on('connection', function(socket) {
 
         } else {
             socket.emit('redirect', current);
-            //is useless go to the 'disconnect' listener when current>=3
             return;
         }
 
     });
 
     socket.on('disconnect', function() {
-        io.sockets.in(room).emit('refresh');
+        var current = getCurrent(room);
+        if(io.nsps['/'].adapter.rooms[room]) {
+            current = io.nsps['/'].adapter.rooms[room].length;
+        }
+        if(current <2) {
+            io.sockets.in(room).emit('refresh');
+        }
         socket.leave(socket.room);
     });
 
 });
+
+function getCurrent(room) {
+    var roomVar = io.nsps['/'].adapter.rooms[room];
+    return (roomVar === undefined)? 0:roomVar.length;
+}
 
 app.get('/r/:room', function(req, res) {
     var room = req.param('room');
