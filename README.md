@@ -30,8 +30,6 @@ Go to [http://localhost:5000](http://localhost:5000) and you're all set!
 
 
 ### Testing
-**Test Suite**  
-
 Run the tests:  
 
  `npm test`  
