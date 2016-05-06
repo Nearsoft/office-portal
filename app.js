@@ -12,12 +12,7 @@ var room = process.env.room || 'portal';
 var routes = require('./routes/index');
 var app = express();
 var remote = require('./remote/control.js');
-// var fs = require('fs');
-// This is useful just in development env.
-// var keys = {
-//   key: fs.readFileSync('ssl/key.pem'),
-//   cert: fs.readFileSync('ssl/cert.pem')
-// };
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -42,7 +37,7 @@ io.on('connection', function(socket) {
         var current = getCurrent(room);
 
         if (current < 2) {
-          
+
             socket.join(room);
 
             current = getCurrent(room);
@@ -74,10 +69,8 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() {
         var current = getCurrent(room);
-        if(io.nsps['/'].adapter.rooms[room]) {
-            current = io.nsps['/'].adapter.rooms[room].length;
-        }
-        if(current < 2) {
+
+        if(current <2) {
             io.sockets.in(room).emit('refresh');
         }
         socket.leave(socket.room);
