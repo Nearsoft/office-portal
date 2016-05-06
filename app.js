@@ -70,9 +70,6 @@ io.on('connection', function(socket) {
 
     socket.on('disconnect', function() {
         var current = getCurrent(room);
-        if(io.nsps['/'].adapter.rooms[room]) {
-            current = io.nsps['/'].adapter.rooms[room].length;
-        }
         if(current <2) {
             io.sockets.in(room).emit('refresh');
         }
