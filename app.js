@@ -38,9 +38,13 @@ app.use('/', routes);
 
 io.on('connection', function(socket) {
     socket.on('room', function(room) {
+
         var current = getCurrent(room);
+
         if (current < 2) {
+          
             socket.join(room);
+
             current = getCurrent(room);
 
             io.sockets.in(room).emit('join', current);
@@ -73,7 +77,7 @@ io.on('connection', function(socket) {
         if(io.nsps['/'].adapter.rooms[room]) {
             current = io.nsps['/'].adapter.rooms[room].length;
         }
-        if(current <2) {
+        if(current < 2) {
             io.sockets.in(room).emit('refresh');
         }
         socket.leave(socket.room);
