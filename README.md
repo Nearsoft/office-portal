@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/echavezNS/portal-ns.svg?branch=master)](https://travis-ci.org/echavezNS/portal-ns)
+
 # Office-Portal
 
 In Nearsoft, culture is very important, it is considered one of the main pillars of the company, and, because the offices are in different cities, maintaining the same culture through this geographical barrier is a difficult task.
@@ -33,7 +35,6 @@ Go to [http://localhost:5000](http://localhost:5000) and you're all set!
 Run the tests:  
 
  `npm test`  
- 
+
 **To find more in-depth information about the project  
 please visit our [wiki](https://github.com/Nearsoft/office-portal/wiki)**
-
