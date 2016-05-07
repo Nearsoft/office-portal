@@ -127,24 +127,6 @@ describe('Test connections', function() {
 
     });
 
-    it('it should refresh when a client is disconnected', function(done) {
-        var client = io.connect(socketURL, options);
-        var client2 = io.connect(socketURL, options);
-
-        joinRoom(client);
-        joinRoom(client2);
-
-        client2.disconnect();
-
-        client.on('refresh', function() {
-            client.disconnect();
-            client2.disconnect();
-            done();
-        });
-
-    });
-
-
     it('it should emit a quite message when a request is made to /off', function(done) {
 
         var client = io.connect(socketURL, options);

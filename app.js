@@ -10,7 +10,7 @@ var room = config.room;
 var routes = require('./routes/index');
 var app = express();
 var remote = require('./remote/control.js');
-
+var current = 0;
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
@@ -30,9 +30,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 
 io.on('connection', function(socket) {
-    socket.on('room', function(room) {
 
-        var current = getCurrent(room);
+    socket.on('room', function(room) {
+        socket.room = room;
+        current = getCurrent(room);
 
         if (current < 2) {
 
@@ -66,11 +67,6 @@ io.on('connection', function(socket) {
     });
 
     socket.on('disconnect', function() {
-        var current = getCurrent(room);
-
-        if(current <2) {
-            io.sockets.in(room).emit('refresh');
-        }
         socket.leave(socket.room);
     });
 
