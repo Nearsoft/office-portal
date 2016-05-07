@@ -10,9 +10,10 @@ var room = config.room;
 var routes = require('./routes/index');
 var app = express();
 var remote = require('./remote/control.js');
-var current = 0;
 var http = require('http').Server(app);
-var io = require('socket.io')(http);
+var io = require('socket.io').listen(http);
+var Manager = require('./lib/Manager.js');
+
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,58 +30,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 
-io.on('connection', function(socket) {
-
-    socket.on('room', function(room) {
-        socket.room = room;
-        current = getCurrent(room);
-
-        if (current < 2) {
-
-            socket.join(room);
-
-            current = getCurrent(room);
-
-            io.sockets.in(room).emit('join', current);
-
-            socket.on('message', function(desc) {
-                io.sockets.in(room).emit('message', desc);
-            });
-
-            socket.on('talk', function(desc) {
-                io.sockets.in(room).emit('talk', desc);
-            });
-
-            socket.on('quiet', function(desc) {
-                io.sockets.in(room).emit('quiet', desc);
-            });
-
-            socket.on('refresh', function() {
-                io.sockets.in(room).emit('refresh');
-            });
-
-        } else {
-            socket.emit('redirect', current);
-            return;
-        }
-
-    });
-
-    socket.on('disconnect', function() {
-        socket.leave(socket.room);
-    });
-
-});
-
-function getCurrent(room) {
-    var roomVar = io.nsps['/'].adapter.rooms[room];
-    return (roomVar === undefined)? 0:roomVar.length;
-}
-
-app.get('/r/:room', function(req, res) {
-    var room = req.param('room');
-    res.render('portal', {title: 'Test', room: room});
-});
+//We manage all the socket stuff
+Manager(io);
 
 app.post('/off', function(req, res) {
     var message = remote.getActionMessage(req.body.token, '/off');
