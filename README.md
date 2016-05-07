@@ -33,3 +33,7 @@ Go to [http://localhost:5000](http://localhost:5000) and you're all set!
 Run the tests:  
 
  `npm test`  
+ 
+**To find more in-depth information about the project  
+please visit our [wiki](https://github.com/Nearsoft/office-portal/wiki)**
+
