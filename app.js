@@ -5,10 +5,8 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
-var port = process.env.PORT || 5000;
-var room = process.env.room || 'portal';
-
+var config = require('./config');
+var room = config.room;
 var routes = require('./routes/index');
 var app = express();
 var remote = require('./remote/control.js');
@@ -104,7 +102,9 @@ app.post('/on', function(req, res) {
     res.json(message);
 });
 
-http.listen(port);
+http.listen(config.port, function() {
+    console.log('Listening on ' +config.host);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
