@@ -34,7 +34,6 @@
         }
     },
     init: function() {
-
       var palette;
       var paletteoffset = 0;
       var canvas = document.getElementById('canvas');
@@ -86,10 +85,11 @@
     },
     getPortalColor  : function(){
       if(this.portalparam){
-        return this.colors[this.portalparam];
-      }else{
-        return this.colors.defaultcolor;
+        if(this.colors[this.portalparam]){
+          return this.colors[this.portalparam];
+        }
       }
+      return this.colors.defaultcolor;
     },
     comunication: function(enable){
 

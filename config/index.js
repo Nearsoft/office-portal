@@ -10,6 +10,5 @@ var config = {
   port: port,
   room: room
 };
-console.log(config);
 
 module.exports = config;
