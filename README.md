@@ -30,6 +30,27 @@ In the office-portal folder install dependencies:
 Go to [http://localhost:5000](http://localhost:5000) and you're all set!
 
 
+## API
+You can use the API for making the next actions:
+
+#### Turn off the portal
+| URL    | Request method |
+| ----------------------- |
+| /off   | POST           |
+| params   | token        |
+
+##### Where:
+  token: A valid token taken from either the environment variables or defined in `config/index.js`
+
+#### Turn on the portal
+| URL    | Request method |
+| ----------------------- |
+| /on   | POST           |
+| params   | token        |
+
+##### Where:
+  token: A valid token taken from either the environment variables or defined in `config/index.js`
+
 
 ### Testing
 Run the tests:  
