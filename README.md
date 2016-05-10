@@ -36,10 +36,10 @@ You can use the API for making the next actions:
 
 #### Turn off the portal
 
-| URL    | Request method |
-| ----------------------- |
-| /off   | POST           |
-| params   | token        |
+| URL            | /off  |
+|----------------|-------|
+| Request Method | POST  |
+| Params         | token |
 
 ##### Where:
 
@@ -47,10 +47,10 @@ You can use the API for making the next actions:
 
 #### Turn on the portal
 
-| URL    | Request method |
-| ----------------------- |
-| /on   | POST           |
-| params   | token        |
+| URL            | /on  |
+|----------------|-------|
+| Request Method | POST  |
+| Params         | token |
 
 ##### Where:
 
