@@ -105,6 +105,10 @@ function start(isCaller) {
 
     // Detect when a user disconnect
     pc.oniceconnectionstatechange = function() {
+      console.log("ICE Candidate on state: " + pc.iceConnectionState);
+      console.log("--------------------");
+      console.log(pc.iceConnectionState);
+      console.log("--------------------");
         if(pc.iceConnectionState === 'disconnected') {
             window.location.reload();
         }
