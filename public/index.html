@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>nearsoft portal</title>
+  <link rel="stylesheet" href="site.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+ </head>
+<body>
+  <div class="video-container">
+    <div id="remote-media">
+    </div>
+  </div>
+  <div id="footer" class="container-fluid">
+    <div id="preview" class="row">
+      <div id="local-media" class="col-md-1">
+      </div>
+      <div id="words-container" class="col-md-11 sky">
+         <div  id="wordsDiv" class="emoji iwazaru">
+         </div>
+        
+      </div>
+    </div>
+  </div>
+  
+  <canvas id="myCanvas" width="700" height="500" style=" display: none ">
+  <script src="//media.twiliocdn.com/sdk/js/common/v0.1/twilio-common.min.js"></script>
+  <script src="//media.twiliocdn.com/sdk/js/video/releases/1.0.0-beta2/twilio-video.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+   <script src="words.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" crossorigin="anonymous"></script>
+  <script src="quickstart.js"></script>
+  <script>
+    sendImage = function(){
+        var c = document.getElementById("myCanvas");
+        var ctx = c.getContext("2d");
+        var el = document.getElementById('local-media')
+        var img = el.lastChild;
+
+        ctx.drawImage(img, 10, 10);
+
+        var dataurl=c.toDataURL();
+        var datos='{"name":"'+dataurl.replace("data:image/png;base64,","")+'"}';
+        var request = new XMLHttpRequest();
+        request.onreadystatechange = function(){
+            if (request.readyState == 4 && request.status == 200) {
+                console.log(request.responseText);
+                drawWords(request.responseText); // Another callback here
+                sendImage();
+            }
+        };
+        request.open('POST', "https://portalrecon.azurewebsites.net/api/HttpTriggerCSharp4?code=gj3to9qta31m0bht86i02uik9hz6dhnlm3et1i210sfryvte29a9sqwa5zjlgj326e8zrggb9");
+        request.setRequestHeader('Access-Control-Allow-Headers', '*');
+        request.setRequestHeader('Access-Control-Allow-Origin', '*');
+        request.setRequestHeader('Content-Type', 'application/json');
+        request.send(datos);
+
+
+    }
+    $(document).ready(function() {
+        setTimeout(sendImage, 5000);
+    });
+</script>
+</body>
+</html>
