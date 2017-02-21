@@ -31,8 +31,9 @@ app.get('/token', function(request, response) {
    
     if(request.query.id==null || usersAdmited.indexOf(request.query.id)==-1 || usersConected.indexOf(request.query.id)!=-1){
          console.log('please try again later');
-          response.redirect("/wait.html")
-        return;
+        response.send({
+            redirect: "/wait.html"
+        });
     }else{
         usersConected.push(request.query.id);
         console.log(usersConected);

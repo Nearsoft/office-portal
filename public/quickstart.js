@@ -14,10 +14,10 @@ var App = {
 
 App.VideoController = (function() {
   function init() {
-
+    loadStyles({id: getUrlParameter('id')});
    
     $.getJSON('/token',{id: getUrlParameter('id')}, function (data) {
-      if(data!=null){
+      if(data.identity!=null){
           App.identity = data.identity;
           App.videoClient = new Twilio.Video.Client(data.token);
           log("Joining to portal '" + App.roomName + "'...");
@@ -84,6 +84,17 @@ function getUrlParameter(sParam) {
         }
     }
 };
+
+function loadStyles(user){
+
+  var link = document.createElement( "link" );
+  link.href = location.pathname+user.id.toLowerCase()+ ".css";
+  link.type = "text/css";
+  link.rel = "stylesheet";
+  link.media = "screen,print";
+
+  document.getElementsByTagName( "head" )[0].appendChild( link );
+}
 
 function log(message) {
   console.log(message);
