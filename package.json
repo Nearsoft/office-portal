@@ -6,16 +6,10 @@
   "scripts": {
     "start": "node ."
   },
-  "repository": {
-    "type": "git",
-    "url": "github.com/TwilioDevEd/video-quickstart-node"
-  },
   "keywords": [
     "twilio",
     "video",
-    "ip",
     "video",
-    "chat",
     "real",
     "time",
     "diggity"
